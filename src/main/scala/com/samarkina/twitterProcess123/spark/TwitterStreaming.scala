@@ -11,31 +11,36 @@ import org.apache.spark.streaming.twitter.TwitterUtils
 
 object TwitterStreaming {
 
-    def getTwitts() {
+  def getTwitts() {
 
-      val appName = "TwitterData"
-      val conf = new SparkConf()
-      conf.setAppName(appName).setMaster("local[10]")
-      val ssc = new StreamingContext(conf, Seconds(5))
+    val appName = "TwitterData"
+    val conf = new SparkConf()
+    conf.setAppName(appName).setMaster("local[10]")
+    val ssc = new StreamingContext(conf, Seconds(5))
 
 
-      val cb = Twitter.keys()
+    val cb = Twitter.keys()
 
-      val auth = new OAuthAuthorization(cb.build)
-      val tweets = TwitterUtils.createStream(ssc, Some(auth))
+    val auth = new OAuthAuthorization(cb.build)
+    val tweets = TwitterUtils.createStream(ssc, Some(auth))
 
-      // Now extract the text of each status update into RDD's using map()
-      val statuses = tweets.map{
-//        println("********" + Thread.currentThread().getName() + "********")
-        status => status.getText()
-        println("********" + Thread.currentThread().getName() + "********")
-      }
-      println("********222222" + Thread.currentThread().getName() + "********")
+    val regex = "[A-Za-z0-9!@#$%^&*()-_=+;:',./?\\ ]*"
 
-      statuses.print()
-
-//      tweets .saveAsTextFiles("tweets", "json")
-      ssc.start()
-      ssc.awaitTermination()
+    // Now extract the text of each status update into RDD's using map()
+    val statuses = tweets.map {
+      println("********" + Thread.currentThread().getName() + "********")
+      status =>
+        status.getText()
     }
+      .filter {
+        s =>
+          s matches regex
+      }
+    println("********222222" + Thread.currentThread().getName() + "********")
+
+    statuses.print()
+
+    ssc.start()
+    ssc.awaitTermination()
+  }
 }
