@@ -2,9 +2,6 @@ name := "TwitterProcess123"
 
 version := "0.1"
 
-//scalaVersion := "2.12.10"
-//val sparkVersion = "2.4.5"
-
 scalaVersion := "2.11.12"
 
 val sparkVersion = "2.3.2"
