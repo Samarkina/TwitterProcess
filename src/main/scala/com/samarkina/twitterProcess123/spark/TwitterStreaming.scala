@@ -1,6 +1,7 @@
 package com.samarkina.twitterProcess123.spark
 
 import com.samarkina.twitterProcess123.twitter._
+import com.samarkina.twitterProcess123.kafka._
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.Seconds
@@ -11,14 +12,7 @@ import org.apache.spark.streaming.twitter.TwitterUtils
 
 object TwitterStreaming {
 
-  def getTwitts() {
-
-    val appName = "TwitterData"
-    val conf = new SparkConf()
-    conf.setAppName(appName).setMaster("local[10]")
-    val ssc = new StreamingContext(conf, Seconds(5))
-
-
+  def getTwitts(ssc: StreamingContext) {
     val cb = Twitter.keys()
 
     val auth = new OAuthAuthorization(cb.build)
@@ -40,7 +34,5 @@ object TwitterStreaming {
 
     statuses.print()
 
-    ssc.start()
-    ssc.awaitTermination()
   }
 }

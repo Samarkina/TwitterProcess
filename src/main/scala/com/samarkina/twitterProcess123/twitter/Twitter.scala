@@ -5,7 +5,7 @@ import twitter4j.conf.ConfigurationBuilder
 import scala.io.Source
 
 object Twitter {
-  def keys() = {
+  def keys(): ConfigurationBuilder = {
 
     val consumerKeyFile = Source.fromFile("src/main/resources/consumerKey.txt")
     val consumerKey = try consumerKeyFile.mkString finally consumerKeyFile.close()
@@ -18,11 +18,6 @@ object Twitter {
 
     val accessTokenSecretFile = Source.fromFile("src/main/resources/accessTokenSecret.txt")
     val accessTokenSecret = try accessTokenSecretFile.mkString finally accessTokenSecretFile.close()
-
-//    println(consumerKey)
-//    println(consumerSecret)
-//    println(accessToken)
-//    println(accessTokenSecret)
 
     val cb = new ConfigurationBuilder
 
