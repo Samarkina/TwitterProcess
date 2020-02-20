@@ -16,7 +16,8 @@ object First extends Logging {
     val ssc = new StreamingContext(conf, Seconds(5))
     setStreamingLogLevels()
 
-    getTwitts(ssc)
+    val tweets = getTwitts(ssc)
+    tweets.print()
 
     ssc.start()
     ssc.awaitTermination()

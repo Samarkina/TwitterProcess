@@ -5,6 +5,7 @@ import com.samarkina.twitterProcess123.kafka._
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.Seconds
+import org.apache.spark.streaming.dstream.DStream
 import twitter4j.conf.ConfigurationBuilder
 import twitter4j.auth.OAuthAuthorization
 import twitter4j.Status
@@ -12,7 +13,7 @@ import org.apache.spark.streaming.twitter.TwitterUtils
 
 object TwitterStreaming {
 
-  def getTwitts(ssc: StreamingContext) {
+  def getTwitts(ssc: StreamingContext): DStream[String] = {
     val cb = Twitter.keys()
 
     val auth = new OAuthAuthorization(cb.build)
@@ -32,7 +33,7 @@ object TwitterStreaming {
       }
     println("********222222" + Thread.currentThread().getName() + "********")
 
-    statuses.print()
+    statuses
 
   }
 }
