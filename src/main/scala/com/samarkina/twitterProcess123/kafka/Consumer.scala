@@ -7,13 +7,9 @@ import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.streaming.dstream.DStream
 
-import collection.JavaConversions._
-import org.apache.kafka.common.serialization._
-import org.apache.kafka.clients.producer.KafkaProducer
-import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.spark.SparkConf
 
-object Kafka {
+object Consumer {
   def main(args: Array[String]): Unit = {
 
     val appName = "Consumer"
@@ -51,20 +47,4 @@ object Kafka {
     stream.map(record => (record.key, record.value))
 
   }
-
-  def kafkaProducer(msg: ProducerRecord[Int, String]) = {
-
-    val cfg = Map(
-      "bootstrap.servers" -> "localhost:9092",
-      "key.serializer" -> classOf[IntegerSerializer],
-      "value.serializer" -> classOf[StringSerializer])
-    val producer = new KafkaProducer[Int, String](cfg)
-
-    val f = producer.send(msg)
-
-    f.get
-
-    producer.close
-  }
-
 }
