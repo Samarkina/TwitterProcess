@@ -1,4 +1,10 @@
-# Twitter Process
+# Twitter Processing with Spark Streaming
+
+### Description
+
+This project processing data from Twitter using Kafka, Zookeeper and Spark Streaming
+
+### Parts of the project
 
 1. Broker - it is zookeeper and kafka in console (Topic needs to be created in broker)
 if you don't have the topics, then you can create it (scripts/createTopicKafka.sh)
